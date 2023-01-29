@@ -1,6 +1,7 @@
 .feedback-form {
   display: flex;
   flex-direction: column;
+  gap: 20px;
   max-width: 480px;
   padding: 12px;
   background-color: #fff;
@@ -11,7 +12,6 @@
 .feedback-form label {
   display: flex;
   flex-direction: column;
-  margin-bottom: 16px;
 }
 
 .feedback-form button {
@@ -24,8 +24,27 @@ input,
 textarea {
   padding: 8px;
   font: inherit;
+  border: 1px solid rgba(33, 33, 33, 0.2);
+}
+
+input:focus,
+textarea:focus {
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 }
 
 textarea {
   resize: none;
+}
+
+button {
+  border: none;
+  color: #fff;
+  background: #51a2ff;
+  transition: background 400ms cubic-bezier(0.4, 0, 0.2, 1), color 400ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+button:hover {
+  color: rgb(255, 255, 0);
+  background: rgb(46, 46, 255);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.15);
 }
