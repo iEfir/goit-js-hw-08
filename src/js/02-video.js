@@ -10,8 +10,7 @@ function onPlayer({ seconds }) {
 }
 
 try {
-  const data = JSON.parse(localStorage.getItem('videoplayer-current-time'));
-  player.setCurrentTime(data);
+  player.setCurrentTime(localStorage.getItem('videoplayer-current-time'));
 } catch (error) {
   console.log(error.name);
   console.log(error.message);
