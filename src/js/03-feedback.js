@@ -16,8 +16,6 @@ function onInput(e) {
 
 function onSubmit(e) {
   e.preventDefault();
-  const dataStoreage = JSON.parse(localStorage.getItem(STOREAGE_KEY));
-  console.log('dataStoreage', dataStoreage);
   e.currentTarget.reset();
   localStorage.removeItem(STOREAGE_KEY);
 }
@@ -27,8 +25,6 @@ function condition() {
   const email = document.querySelector('input');
   const message = document.querySelector('textarea');
 
-  if (dataStoreage) {
-    email.value = dataStoreage.email;
-    message.value = dataStoreage.message;
-  }
+  email.value = dataStoreage.email || '';
+  message.value = dataStoreage.message || '';
 }
