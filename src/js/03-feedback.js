@@ -1,30 +1,47 @@
 import throttle from 'lodash.throttle';
+import { saveToStorage, loadFromStorage } from './storage.js';
 
 const form = document.querySelector('.feedback-form');
-const formData = {};
-const STOREAGE_KEY = 'feedback-form-state';
-
-form.addEventListener('input', throttle(onInput, 500));
-form.addEventListener('submit', onSubmit);
+const STORAGE_KEY = 'feedback-form-state';
+const dataInput = {
+  email: '',
+  message: '',
+};
+const recoverData = loadFromStorage(STORAGE_KEY);
 
 condition();
 
-function onInput(e) {
-  formData[e.target.name] = e.target.value;
-  localStorage.setItem(STOREAGE_KEY, JSON.stringify(formData));
-}
+form.addEventListener('input', throttle(saveToInput), 500);
+form.addEventListener('submit', onSubmitForm);
 
-function onSubmit(e) {
-  e.preventDefault();
-  e.currentTarget.reset();
-  localStorage.removeItem(STOREAGE_KEY);
+function saveToInput(evt) {
+  dataInput.email = evt.currentTarget[0].value;
+  dataInput.message = evt.currentTarget[1].value;
+  saveToStorage(STORAGE_KEY, dataInput);
+}
+function onSubmitForm(evt) {
+  evt.preventDefault();
+  if (form.email.value === '' || form.message.value === '') {
+    return false;
+  } else {
+    console.log(dataInput);
+  }
+  formCleaner();
+  storageCleaner();
+}
+function formCleaner() {
+  form[0].value = '';
+  form[1].value = '';
+}
+function storageCleaner() {
+  localStorage.removeItem(STORAGE_KEY);
 }
 
 function condition() {
-  const dataStoreage = JSON.parse(localStorage.getItem(STOREAGE_KEY));
-  const email = document.querySelector('input');
-  const message = document.querySelector('textarea');
-
-  email.value = dataStoreage.email || '';
-  message.value = dataStoreage.message || '';
+  if (recoverData === undefined) {
+    return saveToStorage(STORAGE_KEY, dataInput);
+  } else {
+    form.email.value = recoverData.email;
+    form.message.value = recoverData.message;
+  }
 }
